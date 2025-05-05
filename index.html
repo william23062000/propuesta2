@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>¿Quieres ser mi novia?</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin-top: 100px;
+      background-color: #fff0f5;
+      overflow: hidden;
+    }
+
+    h1 {
+      font-size: 2em;
+    }
+
+    button {
+      padding: 20px 40px;
+      font-size: 1.2em;
+      margin: 20px;
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+
+    #message {
+      margin-top: 50px;
+      font-size: 1.5em;
+      color: #d63384;
+      display: none;
+    }
+
+    #noMessages {
+      margin-top: 20px;
+      color: #c9184a;
+      font-size: 1.2em;
+      min-height: 40px;
+    }
+
+    .heart {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background-color: red;
+      transform: rotate(45deg);
+      animation: float 4s linear infinite;
+      opacity: 0.6;
+    }
+
+    .heart::before,
+    .heart::after {
+      content: "";
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background-color: red;
+      border-radius: 50%;
+    }
+
+    .heart::before {
+      top: -10px;
+      left: 0;
+    }
+
+    .heart::after {
+      left: -10px;
+      top: 0;
+    }
+
+    @keyframes float {
+      0% {
+        transform: translateY(0) rotate(45deg);
+        opacity: 0.6;
+      }
+      100% {
+        transform: translateY(-100vh) rotate(45deg);
+        opacity: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <h1>¿Quieres ser mi novia?</h1>
+  <div>
+    <button id="yesBtn">Sí</button>
+    <button id="noBtn">No</button>
+  </div>
+  <div id="noMessages"></div>
+  <div id="message">Me alegra saber que esa sea tu respuesta. Te amo mucho.</div>
+
+  <script>
+    const yesBtn = document.getElementById('yesBtn');
+    const noBtn = document.getElementById('noBtn');
+    const message = document.getElementById('message');
+    const noMessages = document.getElementById('noMessages');
+
+    const mensajesNo = [
+      "¿Estás segura de eso? 🥺",
+      "Piénsalo otra vez, por favor 😢",
+      "No me rompas el corazón 💔",
+      "Vamos, sabes que quieres decir que sí ❤️",
+      "¿Por qué no? 😭",
+      "Seguro fue un error de dedo, ¿cierto? 😅",
+      "Duele más de lo que imaginé 💘",
+      "¿Y si lo intentamos juntos? 💞",
+      "No te rindas en el amor 💌",
+      "Esa no puede ser tu respuesta final... 😔"
+    ];
+
+    let noClicks = 0;
+
+    function crearCorazonFlotante(x, y) {
+      const heart = document.createElement("div");
+      heart.classList.add("heart");
+      heart.style.left = x + "px";
+      heart.style.top = y + "px";
+      heart.style.animationDuration = (Math.random() * 2 + 3) + "s";
+      heart.style.opacity = Math.random() * 0.5 + 0.3;
+      document.body.appendChild(heart);
+
+      setTimeout(() => {
+        heart.remove();
+      }, 5000);
+    }
+
+    function lanzarCorazones() {
+      for (let i = 0; i < 30; i++) {
+        const x = Math.random() * window.innerWidth;
+        const y = window.innerHeight;
+        crearCorazonFlotante(x, y);
+      }
+    }
+
+    yesBtn.addEventListener('click', () => {
+      message.style.display = 'block';
+      lanzarCorazones();
+    });
+
+    noBtn.addEventListener('click', () => {
+      noClicks++;
+      noBtn.style.fontSize = (1.2 + noClicks * 0.3) + 'em';
+      yesBtn.style.fontSize = Math.max(0.5, 1.2 - noClicks * 0.1) + 'em';
+
+      const mensaje = mensajesNo[Math.floor(Math.random() * mensajesNo.length)];
+      noMessages.textContent = mensaje;
+    });
+
+    // Corazones flotando permanentemente
+    setInterval(() => {
+      const x = Math.random() * window.innerWidth;
+      const y = window.innerHeight;
+      crearCorazonFlotante(x, y);
+    }, 500);
+  </script>
+</body>
+</html>
